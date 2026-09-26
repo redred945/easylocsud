@@ -2,7 +2,16 @@
 
 Site statique (HTML / CSS / JS, sans build) pour **EasyLoc Sud / Easy CAR**, entreprise familiale de location de voitures, utilitaires et deux-roues à Marseille (+ nettoyage auto à domicile).
 
-**Direction artistique** : celle d'origine du client (noir et or `#CB9E02`, logo script « Easy Car »), poussée en version premium « autre dimension » : portail doré 3D, route en perspective animée, cartes en tilt.
+**Direction artistique** : celle d'origine du client (noir et or `#CB9E02`, logo script « Easy Car », Roboto), poussée en expérience « dernière génération » :
+
+- loader d'entrée (une fois par session) puis titres révélés mot à mot ;
+- **hero épinglé : au scroll on entre dans le portail** doré (la Clio remplit l'écran) ;
+- **tunnel 3D** : le scroll fait traverser les trois catégories (voitures → utilitaires → deux-roues), avec anneaux et photos en profondeur ;
+- bento des services avec lumière qui suit la souris, curseur custom, boutons magnétiques ;
+- **comparateur avant / après** glissable pour le nettoyage à domicile ;
+- scroll fluide (Lenis), marquee réactif à la vitesse de scroll, mot géant en pied de page.
+
+Dépendances chargées par CDN (jsDelivr) : GSAP + ScrollTrigger 3.12.5 et Lenis 1.1.14. Si elles ne se chargent pas, ou avec `prefers-reduced-motion`, le site reste entièrement lisible (panneaux empilés, sans animation).
 
 ## Aperçu local
 

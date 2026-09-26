@@ -17,7 +17,8 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+<script>document.documentElement.classList.add("js")</script>
 <link rel="stylesheet" href="assets/style.css" />
 
 <script type="application/ld+json">
@@ -37,6 +38,15 @@
 </script>
 </head>
 <body>
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-inner">
+    <svg class="loader-ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="56" pathLength="1"/></svg>
+    <div class="loader-logo"><img src="https://primary.jwwb.nl/public/q/b/m/temp-lwyzxgcjetqwwphfrnjc/a9171a18-1f39-4c8d-b37b-d1cd76e4d24d-high.png" alt="" /></div>
+  </div>
+  <div class="loader-count"><span id="lc">0</span>%</div>
+</div>
+<div class="cursor" id="cursor" aria-hidden="true"><i></i></div>
+<div class="grain" aria-hidden="true"></div>
 <div id="progress" aria-hidden="true"></div>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -49,6 +59,10 @@
     <symbol id="i-sofa" viewBox="0 0 24 24"><path d="M4 12V9a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v3M3 12a2 2 0 0 1 2 2v2h14v-2a2 2 0 1 1 2 2v3H3v-3a2 2 0 0 1 0-4zM6 19v2M18 19v2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
     <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 12h9M18 12v4M15 12v3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8L3 12z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="7.5" cy="8.5" r="1.5" fill="currentColor"/></symbol>
+    <symbol id="i-cash" viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="2.8" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0 4.9 4.9L21 13l-3 3-2-2L7 22.5A2.1 2.1 0 0 1 4 19.5L12.5 11l-2-2 3-3 1 .5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
   </defs>
 </svg>
 
@@ -59,9 +73,10 @@
     </a>
     <nav class="nav" id="nav" aria-label="Navigation principale">
       <a href="#dimensions">Dimensions</a>
+      <a href="#services">Services</a>
       <a href="#flotte">La flotte</a>
       <a href="#nettoyage">Nettoyage</a>
-      <a href="#reserver">Comment ça marche</a>
+      <a href="#reserver">Réserver</a>
       <a href="#faq">FAQ</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -72,36 +87,39 @@
 
 <main id="top">
 
-<!-- HERO -->
-<section class="hero">
-  <canvas id="warp" aria-hidden="true"></canvas>
-  <div class="wrap hero-grid">
-    <div>
-      <span class="kicker"><i></i>Entreprise familiale · Marseille</span>
-      <h1>Louez dans une <span class="grad">autre dimension.</span></h1>
-      <p class="lead">Voitures, utilitaires, motos : la route est à vous. Et pour que tout reste impeccable, on lave votre voiture directement chez vous. Location, achat, vente, mécanique et lavage, une seule adresse, une seule famille.</p>
-      <div class="cta">
-        <a class="btn btn-primary" href="#flotte">Voir la flotte <svg width="20" height="20"><use href="#i-arrow"/></svg></a>
-        <a class="btn btn-ghost" href="#contact">Demander un devis</a>
+<!-- HERO : on entre dans le portail au scroll -->
+<section class="hero" id="hero">
+  <div class="hero-pin">
+    <canvas id="warp" aria-hidden="true"></canvas>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="kicker"><i></i>Entreprise familiale · Marseille</span>
+        <h1 data-split>Louez dans une <span class="grad">autre dimension.</span></h1>
+        <p class="lead">Voitures, utilitaires, motos : la route est à vous. Et pour qu'elle reste impeccable, on lave votre voiture directement chez vous. Une seule adresse, une seule famille.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="#flotte">Voir la flotte <svg width="20" height="20"><use href="#i-arrow"/></svg></a>
+          <a class="btn btn-ghost" href="#contact">Demander un devis</a>
+        </div>
+        <div class="hero-meta">
+          <div><b><span data-count="3">3</span></b><span>types de location</span></div>
+          <div><b><span data-count="9">9</span></b><span>véhicules en ligne</span></div>
+          <div><b>À domicile</b><span>nettoyage auto</span></div>
+        </div>
       </div>
-      <div class="hero-meta">
-        <div><b>3</b><span>types de location</span></div>
-        <div><b>9</b><span>véhicules en ligne</span></div>
-        <div><b>À domicile</b><span>nettoyage auto</span></div>
-      </div>
-    </div>
 
-    <div class="portal-wrap" id="portal">
-      <div class="portal">
-        <div class="ring"></div>
-        <div class="ring r2"></div>
-        <div class="view"><img src="https://primary.jwwb.nl/public/q/b/m/temp-lwyzxgcjetqwwphfrnjc/img_2229-high.jpg" alt="Renault Clio V RS Line disponible à la location à Marseille" fetchpriority="high" /></div>
-        <div class="chip c1"><small>À la une</small>Clio V RS Line · 2023</div>
-        <div class="chip c2"><small>Boîte</small>Automatique</div>
+      <div class="portal-wrap" id="portal">
+        <div class="portal">
+          <div class="ring"></div>
+          <div class="ring r2"></div>
+          <div class="view"><img src="https://primary.jwwb.nl/public/q/b/m/temp-lwyzxgcjetqwwphfrnjc/img_2229-high.jpg" alt="Renault Clio V RS Line disponible à la location à Marseille" fetchpriority="high" /></div>
+          <div class="chip c1"><small>À la une</small>Clio V RS Line · 2023</div>
+          <div class="chip c2"><small>Boîte</small>Automatique</div>
+        </div>
       </div>
     </div>
+    <div class="portal-fade" aria-hidden="true"></div>
+    <a class="scroll-hint" href="#dimensions" aria-label="Défiler"><span>Entrer</span><i></i></a>
   </div>
-  <a class="scroll-hint" href="#dimensions" aria-label="Défiler"><span>Explorer</span><i></i></a>
 </section>
 
 <div class="marquee" aria-hidden="true">
@@ -111,35 +129,99 @@
   </div>
 </div>
 
-<!-- DIMENSIONS -->
-<section id="dimensions">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">Choisis ta dimension</span>
-      <h2 class="sec-title">Trois portails, <span class="grad">une seule envie : rouler.</span></h2>
-      <p class="sec-sub">Une citadine pour la ville, un utilitaire pour déménager, une moto pour se faire plaisir. Franchis le portail qui te correspond.</p>
+<!-- TUNNEL : on traverse les dimensions -->
+<section class="tunnel" id="dimensions" aria-label="Nos trois catégories de location">
+  <div class="tunnel-stage">
+    <div class="tunnel-head">
+      <span class="eyebrow">Traverse les dimensions</span>
+      <div class="tunnel-idx"><b id="tidx">01</b><span> / 03</span></div>
     </div>
-    <div class="dims">
-      <a class="dim tilt reveal" href="#flotte" data-filter="voiture">
-        <img src="https://primary.jwwb.nl/public/q/b/m/temp-lwyzxgcjetqwwphfrnjc/img_1894-2-high.jpg" alt="Location de voitures à Marseille" loading="lazy" />
-        <span class="no">01</span>
-        <h3>Voitures</h3>
-        <p>Fiat 500, Volkswagen Up, Peugeot 108, Clio V RS Line… des citadines faciles à garer et agréables à conduire.</p>
-        <span class="go">Nos véhicules <svg width="20" height="20"><use href="#i-arrow"/></svg></span>
+    <div class="tunnel-world" id="world">
+      <article class="layer">
+        <div class="panel">
+          <div class="panel-img"><img src="https://primary.jwwb.nl/public/q/b/m/temp-lwyzxgcjetqwwphfrnjc/img_1894-2-high.jpg" alt="Location de voitures à Marseille" loading="lazy" /></div>
+          <div class="panel-body">
+            <span class="num">01</span>
+            <h3>Voitures</h3>
+            <p>Fiat 500, Volkswagen Up, Peugeot 108, Clio V RS Line… des citadines faciles à garer et agréables à conduire.</p>
+            <a class="btn btn-primary" href="#flotte" data-filter="voiture">Voir les voitures <svg width="20" height="20"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </article>
+      <article class="layer">
+        <div class="panel">
+          <div class="panel-img"><img src="https://primary.jwwb.nl/public/q/b/m/temp-lwyzxgcjetqwwphfrnjc/img_1895-2-high.jpg" alt="Location d'utilitaires à Marseille" loading="lazy" /></div>
+          <div class="panel-body">
+            <span class="num">02</span>
+            <h3>Utilitaires</h3>
+            <p>Renault Trafic, Citroën Jumpy : pratiques et confortables pour vos déménagements ou vos trajets pro.</p>
+            <a class="btn btn-primary" href="#flotte" data-filter="utilitaire">Voir les utilitaires <svg width="20" height="20"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </article>
+      <article class="layer">
+        <div class="panel">
+          <div class="panel-img"><img src="https://primary.jwwb.nl/public/q/b/m/temp-lwyzxgcjetqwwphfrnjc/img_1897-2-high.jpg" alt="Location de motos et scooters à Marseille" loading="lazy" /></div>
+          <div class="panel-body">
+            <span class="num">03</span>
+            <h3>Deux-roues</h3>
+            <p>Motos et scooters : la Yamaha MT-07, bicylindre coupleux au style agressif, pour un plaisir de conduite hors norme.</p>
+            <a class="btn btn-primary" href="#flotte" data-filter="moto">Voir les deux-roues <svg width="20" height="20"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </article>
+    </div>
+    <div class="tunnel-hint" aria-hidden="true"><i></i><span>Scrolle pour avancer</span></div>
+  </div>
+</section>
+
+<!-- SERVICES : bento -->
+<section id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Nos services</span>
+      <h2 class="sec-title" data-split>Location, achat, vente, <span class="grad">lavage, mécanique.</span></h2>
+      <p class="sec-sub reveal">Une seule adresse pour tout ce qui touche à votre véhicule.</p>
+    </div>
+    <div class="bento">
+      <a class="tile spot t-loc reveal" href="#flotte">
+        <img src="https://primary.jwwb.nl/public/q/b/m/temp-lwyzxgcjetqwwphfrnjc/img_2233-high.jpg" alt="" loading="lazy" />
+        <div class="tile-body">
+          <span class="ic"><svg width="26" height="26"><use href="#i-key"/></svg></span>
+          <h3>Location</h3>
+          <p>Voitures, utilitaires et deux-roues : 9 véhicules prêts à partir, à Marseille.</p>
+          <span class="go">Voir la flotte <svg width="20" height="20"><use href="#i-arrow"/></svg></span>
+        </div>
       </a>
-      <a class="dim tilt reveal" href="#flotte" data-filter="utilitaire">
-        <img src="https://primary.jwwb.nl/public/q/b/m/temp-lwyzxgcjetqwwphfrnjc/img_1895-2-high.jpg" alt="Location d'utilitaires à Marseille" loading="lazy" />
-        <span class="no">02</span>
-        <h3>Utilitaires</h3>
-        <p>Renault Trafic, Citroën Jumpy : pratiques et confortables pour vos déménagements ou vos trajets pro.</p>
-        <span class="go">Nos utilitaires <svg width="20" height="20"><use href="#i-arrow"/></svg></span>
+      <a class="tile spot t-lav reveal" href="#nettoyage" style="--d:.08s">
+        <img src="https://primary.jwwb.nl/public/q/b/m/temp-lwyzxgcjetqwwphfrnjc/avant-et-apre-s-nettoyage-auto-high.png" alt="" loading="lazy" />
+        <div class="tile-body">
+          <span class="ic"><svg width="26" height="26"><use href="#i-drop"/></svg></span>
+          <h3>Lavage à domicile</h3>
+          <p>Particuliers et professionnels : on vient à vous, votre voiture repart comme neuve.</p>
+          <span class="go">Voir les avant / après <svg width="20" height="20"><use href="#i-arrow"/></svg></span>
+        </div>
       </a>
-      <a class="dim tilt reveal" href="#flotte" data-filter="moto">
-        <img src="https://primary.jwwb.nl/public/q/b/m/temp-lwyzxgcjetqwwphfrnjc/img_1897-2-high.jpg" alt="Location de motos et scooters à Marseille" loading="lazy" />
-        <span class="no">03</span>
-        <h3>Deux-roues</h3>
-        <p>Motos et scooters : la Yamaha MT-07, bicylindre coupleux au style agressif, pour un plaisir de conduite hors norme.</p>
-        <span class="go">Nos deux-roues <svg width="20" height="20"><use href="#i-arrow"/></svg></span>
+      <a class="tile spot t-ach reveal" href="#contact" data-service="Achat / vente">
+        <div class="tile-body">
+          <span class="ic"><svg width="26" height="26"><use href="#i-cash"/></svg></span>
+          <h3>Achat</h3>
+          <p>Vous cherchez un véhicule à acheter ? Parlons-en.</p>
+        </div>
+      </a>
+      <a class="tile spot t-ven reveal" href="#contact" data-service="Achat / vente" style="--d:.08s">
+        <div class="tile-body">
+          <span class="ic"><svg width="26" height="26"><use href="#i-tag"/></svg></span>
+          <h3>Vente</h3>
+          <p>Vous souhaitez vendre le vôtre ? Contactez-nous.</p>
+        </div>
+      </a>
+      <a class="tile spot t-mec reveal" href="#contact" data-service="Mécanique" style="--d:.16s">
+        <div class="tile-body">
+          <span class="ic"><svg width="26" height="26"><use href="#i-wrench"/></svg></span>
+          <h3>Mécanique</h3>
+          <p>Un souci sur votre véhicule ? L'équipe s'en occupe.</p>
+        </div>
       </a>
     </div>
   </div>
@@ -342,9 +424,17 @@
       <a class="btn btn-primary reveal" href="#contact" data-service="Nettoyage auto à domicile">Réserver un nettoyage <svg width="20" height="20"><use href="#i-arrow"/></svg></a>
     </div>
     <div class="ba reveal">
-      <figure><img src="https://primary.jwwb.nl/public/q/b/m/temp-lwyzxgcjetqwwphfrnjc/avant-et-apre-s-nettoyage-auto-high.png" alt="Avant et après un nettoyage auto à domicile" loading="lazy" /><figcaption>Avant / Après</figcaption></figure>
-      <figure><img src="https://primary.jwwb.nl/public/q/b/m/temp-lwyzxgcjetqwwphfrnjc/avant-et-apre-s-_-inte-rieur-audi-rs-high.png" alt="Avant et après : intérieur d'une Audi RS" loading="lazy" /><figcaption>Intérieur Audi RS</figcaption></figure>
-      <figure><img src="https://primary.jwwb.nl/public/q/b/m/temp-lwyzxgcjetqwwphfrnjc/avant-et-apre-s-_-transformation-de-l-inte-rieur-1-standard.png" alt="Transformation d'un intérieur de voiture" loading="lazy" /><figcaption>Transformation</figcaption></figure>
+      <div class="cmp" id="cmp" style="--pos:50%">
+        <img class="cmp-a" src="https://primary.jwwb.nl/public/q/b/m/temp-lwyzxgcjetqwwphfrnjc/avant-et-apre-s-nettoyage-auto-high.png" alt="Intérieur avant nettoyage" loading="lazy" />
+        <img class="cmp-b" src="https://primary.jwwb.nl/public/q/b/m/temp-lwyzxgcjetqwwphfrnjc/avant-et-apre-s-nettoyage-auto-high.png" alt="Intérieur après nettoyage" loading="lazy" />
+        <span class="cmp-tag l">Avant</span><span class="cmp-tag r">Après</span>
+        <div class="cmp-handle" aria-hidden="true"><span><svg width="22" height="22" viewBox="0 0 24 24"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <input class="cmp-range" type="range" min="0" max="100" value="50" aria-label="Comparer l'avant et l'après" />
+      </div>
+      <div class="ba-mini">
+        <figure><img src="https://primary.jwwb.nl/public/q/b/m/temp-lwyzxgcjetqwwphfrnjc/avant-et-apre-s-_-inte-rieur-audi-rs-high.png" alt="Avant et après : intérieur d'une Audi RS" loading="lazy" /><figcaption>Intérieur Audi RS</figcaption></figure>
+        <figure><img src="https://primary.jwwb.nl/public/q/b/m/temp-lwyzxgcjetqwwphfrnjc/avant-et-apre-s-_-transformation-de-l-inte-rieur-1-standard.png" alt="Transformation d'un intérieur de voiture" loading="lazy" /><figcaption>Transformation</figcaption></figure>
+      </div>
     </div>
   </div>
 </section>
@@ -443,8 +533,9 @@
 </main>
 
 <footer>
+  <div class="big-word" aria-hidden="true"><span>EASYLOC</span> <span>SUD</span></div>
   <div class="wrap foot-grid">
-    <a class="logo" href="#top"><img src="https://primary.jwwb.nl/public/q/b/m/temp-lwyzxgcjetqwwphfrnjc/a9171a18-1f39-4c8d-b37b-d1cd76e4d24d-high.png" alt="EasyLoc Sud" width="140" height="46"></a>
+    <a class="logo" href="#top" aria-label="EasyLoc Sud — haut de page"><img src="https://primary.jwwb.nl/public/q/b/m/temp-lwyzxgcjetqwwphfrnjc/a9171a18-1f39-4c8d-b37b-d1cd76e4d24d-high.png" alt="EasyLoc Sud" width="140" height="46"></a>
     <div class="foot-links">
       <a href="tel:+33769550236">07 69 55 02 36</a>
       <a href="mailto:easylocsud13@gmail.com">easylocsud13@gmail.com</a>
@@ -456,6 +547,9 @@
 
 <a class="fab" href="tel:+33769550236" aria-label="Appeler EasyLoc Sud"><svg width="26" height="26"><use href="#i-phone"/></svg></a>
 
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer></script>
 <script src="assets/app.js" defer></script>
 </body>
 </html>
